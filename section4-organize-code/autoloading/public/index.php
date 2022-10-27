@@ -4,33 +4,32 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Autoload</title>
+  <title>Exceptions</title>
 </head>
 <body>
-<style>
-  p {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-align: center;
-    padding: 1rem 1rem;
-  }
-</style>
+  <?php 
+    include('autoload.php');
+    use App\Utility\JsonFileReader;
 
-  <?php
-  // import and run autoload
-  include 'autoload.php';
+    $fileReader = new JsonFileReader();
+    $filename = '../xfiles/inventory.json';
 
-  use App\Conference\Attendee;
-  use App\Conference\Host;
+    // try catch block similar to js
+    try {
 
-  $beth = Attendee::create(['username' => 'Beth_Harmon']);
-  $host = new Host; 
+      $inventory = $fileReader->readFileAsAssArray($filename);
+      print_r($inventory);
+
+    } catch(FileNotFoundException $exception) {
+
+      print_r("The file " . $filename . " could not be found.");
+    
+    } catch(BadJsonException $exception) {
+
+      print_r("The file " . $filename . " is not properly formatted json");
+    }
 
   ?>
-
-  <h1>Beth in Paris</h1>
-
-  <p><?= $beth->getMeta(); ?></p>
-  <p><?= $host->getMeta(); ?></p>
 
 </body>
 </html>

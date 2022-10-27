@@ -4,29 +4,35 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Autoload</title>
+  <title>Traits</title>
+
+  <!-- how to integrate traits (shared functionality) into classes that are not related to each other 
+  and therefor do not warrant inheritance -->
+
 </head>
 <body>
   <?php
   // import and run autoload
   include 'autoload.php';
 
-  use App\Connection\MySqlConnection;
-  use App\Utility\FakeUtility;
+use App\Users\Customer;
+use App\Logging\Logger;
 
-  $mySqlConnection = new MySqlConnection();
-  $utility = new FakeUtility();
+
+  $logger = new Logger;
+  $customer = new Customer;
+  $customer->setLogger($logger)
 
   ?>
   <style>
     p {
       font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 80px;
       text-align: center;
       padding: 1rem 1rem;
     }
   </style>
-  <p><?php echo $mySqlConnection->getDatabaseUrl(); ?></p>
-  <p><?php echo $utility->status;  ?></p>
+  <p><?php echo $customer->getLogger()->log() ; ?></p>
 
 </body>
 </html>
